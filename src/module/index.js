@@ -92,36 +92,6 @@ class index extends Component {
             </Footer>
           </Layout>
         </Layout>
-        {/* <Layout>
-          <Header
-            style={{ position: "sticky", top: 0, zIndex: 1, width: "100%" }}
-          >
-            <Menu theme="dark" mode="horizontal" def>
-              <Menu.Item key={"1"} title={"Pets"}>
-                <Link to="/">Dashboard</Link>
-              </Menu.Item>
-              <Menu.Item key={"2"} title={"Pets"}>
-                <Link to="/pets">Pets</Link>
-              </Menu.Item>
-            </Menu>
-          </Header>
-          <Content className="site-layout" style={{ padding: "0 50px" }}>
-            <div
-              style={{
-                padding: 24,
-                minHeight: 450,
-              }}
-            >
-              <Router>
-                <Switch>
-                  <Route exact path="/" component={Pets} />
-                  <Route exact path="/pets" component={Pets} />
-                </Switch>
-              </Router>
-            </div>
-          </Content>
-          <Footer style={{ textAlign: "center" }}>Created by kt UED</Footer>
-        </Layout> */}
       </Router>
     );
   }
