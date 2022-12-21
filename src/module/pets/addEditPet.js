@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Modal, Select, Form, Input, InputNumber } from "antd";
 const { TextArea } = Input;
 export const AddEditPet = (props) => {
- // const [editData, seteditData] = useState({});
+  // const [editData, seteditData] = useState({});
   const onFinish = async (values) => {
     let keyData = {
+      ...props.editData,
       ...values,
       key: Math.random().toString(),
     };
-    await props.createPetAction(keyData);
+    if (Object.keys(editData).length > 0 && editData.id) {
+      await props.updatePetAction(keyData);
+    } else {
+      await props.createPetAction(keyData);
+    }
     props.handleModel(false);
     form.resetFields();
   };
@@ -18,22 +23,9 @@ export const AddEditPet = (props) => {
   const [form] = Form.useForm();
   const { modelVisible } = props;
   const { editData = {} } = props;
-  console.log(
-    form.getFieldValue("name"),
-    "🚀 ~ file: addEditPet.js:18 ~ AddEditPet ~ editData",
-    editData
-  );
+
   return (
     <div>
-      <div style={{ float: "right" }}>
-        <Button
-          type="primary"
-          style={{ margin: "5px" }}
-          onClick={(e) => props.handleModel(true)}
-        >
-          Add Pet
-        </Button>
-      </div>
       <Modal
         title={`${Object.keys(editData).length > 0 ? "Edit" : "Add"} Pet`}
         open={modelVisible}
@@ -125,12 +117,12 @@ export const AddEditPet = (props) => {
 
           <Form.Item
             wrapperCol={{
-              offset: 8,
-              span: 16,
+              offset: 20,
+              span: 4,
             }}
           >
             <Button type="primary" htmlType="submit">
-              Submit
+              {`${Object.keys(editData).length > 0 ? "Update" : "Submit"}`}
             </Button>
           </Form.Item>
         </Form>

@@ -1,4 +1,4 @@
-import userReducer from "./users/usersReducer";
+import petsReducer from "./pets/petsReducer";
 
-export default {  userReducer };
+export default {  petsReducer };
 

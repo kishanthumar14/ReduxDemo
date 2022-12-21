@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { Space, Table, Tag, Modal } from "antd";
+import { Space, Table, Tag, Modal, Button } from "antd";
 import { connect } from "react-redux";
 import {
   EditOutlined,
   DeleteOutlined,
   ExclamationCircleFilled,
 } from "@ant-design/icons";
-import userActions from "../../core/users/userActions";
+import petsActions from "../../core/pets/petsActions";
 import { AddEditPet } from "./addEditPet";
 const { confirm } = Modal;
 class PateView extends Component {
@@ -22,7 +22,7 @@ class PateView extends Component {
     };
   }
   componentDidMount() {
-    this.props.getUsersAction("1");
+    this.props.getPetsAction("1");
     this.setState({ mounted: true });
     this.setState({ loading: true });
   }
@@ -34,20 +34,37 @@ class PateView extends Component {
   };
   static getDerivedStateFromProps(nextProps, prevState) {
     let update = {};
-    switch (nextProps.userActions.type) {
-      case "GET_ALL_USERS_SUCCESS":
-        update.tableData = nextProps.userActions.data;
+    switch (nextProps.petsActions.type) {
+      case "GET_ALL_PETS_SUCCESS":
+        update.tableData = nextProps.petsActions.data;
         update.loading = false;
         nextProps.fakeAction();
         break;
       case "CREATE_PETS_SUCCESS":
         let tableDataList = prevState.tableData;
-        update.tableData = [...tableDataList, ...[nextProps.userActions.data]];
+        update.tableData = [...[nextProps.petsActions.data], ...tableDataList];
         nextProps.fakeAction();
 
         break;
+      case "UPDATE_PETS_SUCCESS":
+        let record_up_id = nextProps.petsActions.data.payload.id || "";
+        if (record_up_id) {
+          let stateListData = [...prevState.tableData];
+          let findDataIndex = stateListData.findIndex(
+            (eve) => Number(eve.id) === Number(record_up_id)
+          );
+          if (findDataIndex > -1) {
+            stateListData.splice(findDataIndex, 1);
+          }
+          update.tableData = [
+            ...[nextProps.petsActions.data],
+            ...stateListData,
+          ];
+        }
+
+        break;
       case "DELETE_PETS_SUCCESS":
-        let record_id = nextProps.userActions.data.payload.id || "";
+        let record_id = nextProps.petsActions.data.payload.id || "";
         if (record_id) {
           let stateListData = [...prevState.tableData];
           let findDataIndex = stateListData.findIndex(
@@ -60,12 +77,11 @@ class PateView extends Component {
         }
         nextProps.fakeAction();
         break;
-      case "GET_ALL_USERS_ERROR":
+      case "GET_ALL_PETS_ERROR":
         nextProps.fakeAction();
         break;
       case "EDIT_PETS_SUCCESS":
-        console.log(nextProps, this, "kkkkkkTTTT", prevState);
-        update.editData = nextProps.userActions.data;
+        update.editData = nextProps.petsActions.data;
         update.modelVisible = true;
         nextProps.fakeAction();
         break;
@@ -105,6 +121,8 @@ class PateView extends Component {
         title: "Age",
         dataIndex: "age",
         key: "age",
+        defaultSortOrder: "descend",
+        sorter: (a, b) => a.age - b.age,
       },
       {
         title: "Tags",
@@ -154,16 +172,26 @@ class PateView extends Component {
       },
     ];
     const { tableData, modelVisible, editData = {} } = this.state;
-    console.log(editData, "tableData");
     return (
       <div>
-        <AddEditPet
-          {...this.props}
-          modelVisible={modelVisible}
-          handleModel={this.handleModel}
-          editData={editData}
-        />
-        <Table columns={columns} dataSource={tableData} />
+        <div style={{ float: "right" }}>
+          <Button
+            type="primary"
+            style={{ margin: "5px" }}
+            onClick={(e) => this.handleModel(true)}
+          >
+            Add Pet
+          </Button>
+        </div>
+        {modelVisible && (
+          <AddEditPet
+            {...this.props}
+            modelVisible={modelVisible}
+            handleModel={this.handleModel}
+            editData={editData}
+          />
+        )}
+        <Table height={200} columns={columns} dataSource={tableData} />
       </div>
     );
   }
@@ -171,9 +199,9 @@ class PateView extends Component {
 
 export default connect(
   (state) => ({
-    ...state.userReducer,
+    ...state.petsReducer,
   }),
   {
-    ...userActions,
+    ...petsActions,
   }
 )(PateView);

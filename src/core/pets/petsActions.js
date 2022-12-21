@@ -1,7 +1,7 @@
-const userActions = {
-  GET_ALL_USERS: "GET_ALL_USERS",
-  GET_ALL_USERS_SUCCESS: "GET_ALL_USERS_SUCCESS",
-  GET_ALL_USERS_ERROR: "GET_ALL_USERS_ERROR",
+const petsActions = {
+  GET_ALL_PETS: "GET_ALL_PETS",
+  GET_ALL_PETS_SUCCESS: "GET_ALL_PETS_SUCCESS",
+  GET_ALL_PETS_ERROR: "GET_ALL_PETS_ERROR",
 
   CREATE_PETS: "CREATE_PETS",
   CREATE_PETS_SUCCESS: "CREATE_PETS_SUCCESS",
@@ -22,28 +22,28 @@ const userActions = {
   FETCH_ERROR: "FETCH_ERROR",
   FAKE_ACTION: "FAKE_ACTION",
 
-  getUsersAction: (data) => ({
-    type: userActions.GET_ALL_USERS,
+  getPetsAction: (data) => ({
+    type: petsActions.GET_ALL_PETS,
     payload: data,
   }),
   createPetAction: (data) => ({
-    type: userActions.CREATE_PETS,
+    type: petsActions.CREATE_PETS,
     payload: data,
   }),
   deletePetAction: (data) => ({
-    type: userActions.DELETE_PETS,
+    type: petsActions.DELETE_PETS,
     payload: data,
   }),
   editPetAction: (data) => ({
-    type: userActions.EDIT_PETS,
+    type: petsActions.EDIT_PETS,
     payload: data,
   }),
   updatePetAction: (data) => ({
-    type: userActions.UPDATE_PETS,
+    type: petsActions.UPDATE_PETS,
     payload: data,
   }),
   fakeAction: () => ({
-    type: userActions.FAKE_ACTION,
+    type: petsActions.FAKE_ACTION,
   }),
 };
-export default userActions;
+export default petsActions;

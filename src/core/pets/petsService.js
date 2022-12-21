@@ -1,4 +1,4 @@
-export const getAllUsers = () => {
+export const getAllPets = () => {
   const requestOptions = {
     method: "GET",
     headers: { Authorization: localStorage.token },

@@ -23,6 +23,7 @@ class index extends Component {
   };
   render() {
     const { menuKey } = this.state;
+    const { pathname } = window.location;
     return (
       <Router>
         <Layout>
@@ -44,7 +45,7 @@ class index extends Component {
             </div>
             <Menu
               selectedKeys={[menuKey]}
-              defaultOpenKeys={["1"]}
+              defaultOpenKeys={pathname.includes("pets") ? ["2"] : ["2"]}
               theme="dark"
               mode="vertical"
               onClick={(e) => this.menuClickView(e.key)}
@@ -71,7 +72,7 @@ class index extends Component {
               <div
                 style={{
                   padding: 24,
-                  minHeight: 430,
+                  minHeight: 410,
                 }}
               >
                 <Route>

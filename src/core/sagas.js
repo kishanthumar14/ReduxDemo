@@ -1,6 +1,6 @@
 import { all } from "redux-saga/effects";
-import userSagas from "./users/usersSaga";
+import petsSagas from "./pets/petsSaga";
 
 export default function* rootSaga(getState) {
-  yield all([ userSagas()]);
+  yield all([ petsSagas()]);
 }

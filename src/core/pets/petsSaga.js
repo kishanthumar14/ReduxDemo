@@ -1,33 +1,33 @@
 import { all, takeEvery, put, fork, call } from "redux-saga/effects";
-import userActions from "./userActions";
+import petsActions from "./petsActions";
 import {
-  getAllUsers,
+  getAllPets,
   createPets,
   deltePets,
   editPets,
   updatePets,
-} from "./usersService";
+} from "./petsService";
 
-export function* getUserssSaga() {
-  yield takeEvery(userActions.GET_ALL_USERS, function* (payload) {
+export function* getPetsSaga() {
+  yield takeEvery(petsActions.GET_ALL_PETS, function* (payload) {
     try {
-      const response = yield call(getAllUsers, payload.payload);
+      const response = yield call(getAllPets, payload.payload);
       const data = yield call(response.json.bind(response));
       if (data) {
         yield put({
-          type: userActions.GET_ALL_USERS_SUCCESS,
+          type: petsActions.GET_ALL_PETS_SUCCESS,
           data: data,
         });
       } else {
         yield put({
-          type: userActions.GET_ALL_USERS_ERROR,
+          type: petsActions.GET_ALL_PETS_ERROR,
           status: false,
           message: data.message,
         });
       }
     } catch (error) {
       yield put({
-        type: userActions.FETCH_ERROR,
+        type: petsActions.FETCH_ERROR,
         status: false,
         message: "Something went wrong..!",
       });
@@ -35,26 +35,26 @@ export function* getUserssSaga() {
   });
 }
 export function* createPetSaga() {
-  yield takeEvery(userActions.CREATE_PETS, function* (payload) {
+  yield takeEvery(petsActions.CREATE_PETS, function* (payload) {
     try {
       const response = yield call(createPets, payload.payload);
       const data = yield call(response.json.bind(response));
       console.log(data, "samfs erqrmv  dlkf");
       if (data) {
         yield put({
-          type: userActions.CREATE_PETS_SUCCESS,
+          type: petsActions.CREATE_PETS_SUCCESS,
           data: data,
         });
       } else {
         yield put({
-          type: userActions.CREATE_PETS_ERROR,
+          type: petsActions.CREATE_PETS_ERROR,
           status: false,
           message: data.message,
         });
       }
     } catch (error) {
       yield put({
-        type: userActions.FETCH_ERROR,
+        type: petsActions.FETCH_ERROR,
         status: false,
         message: "Something went wrong..!",
       });
@@ -63,25 +63,25 @@ export function* createPetSaga() {
 }
 
 export function* deletePetSaga() {
-  yield takeEvery(userActions.DELETE_PETS, function* (payload) {
+  yield takeEvery(petsActions.DELETE_PETS, function* (payload) {
     try {
       const response = yield call(deltePets, payload.payload);
       const data = yield call(response.json.bind(response));
       if (Object.keys(data).length === 0) {
         yield put({
-          type: userActions.DELETE_PETS_SUCCESS,
+          type: petsActions.DELETE_PETS_SUCCESS,
           data: { ...data, ...payload },
         });
       } else {
         yield put({
-          type: userActions.DELETE_PETS_ERROR,
+          type: petsActions.DELETE_PETS_ERROR,
           status: false,
           message: data.message,
         });
       }
     } catch (error) {
       yield put({
-        type: userActions.FETCH_ERROR,
+        type: petsActions.FETCH_ERROR,
         status: false,
         message: "Something went wrong..!",
       });
@@ -90,26 +90,26 @@ export function* deletePetSaga() {
 }
 
 export function* eidtPetSaga() {
-  yield takeEvery(userActions.EDIT_PETS, function* (payload) {
+  yield takeEvery(petsActions.EDIT_PETS, function* (payload) {
     try {
       console.log(payload.payload);
       const response = yield call(editPets, payload.payload);
       const data = yield call(response.json.bind(response));
       if (Object.keys(data).length > 0) {
         yield put({
-          type: userActions.EDIT_PETS_SUCCESS,
+          type: petsActions.EDIT_PETS_SUCCESS,
           data: data,
         });
       } else {
         yield put({
-          type: userActions.EDIT_PETS_ERROR,
+          type: petsActions.EDIT_PETS_ERROR,
           status: false,
           message: data.message,
         });
       }
     } catch (error) {
       yield put({
-        type: userActions.FETCH_ERROR,
+        type: petsActions.FETCH_ERROR,
         status: false,
         message: "Something went wrong..!",
       });
@@ -117,26 +117,25 @@ export function* eidtPetSaga() {
   });
 }
 export function* updatePetSaga() {
-  yield takeEvery(userActions.UPDATE_PETS, function* (payload) {
+  yield takeEvery(petsActions.UPDATE_PETS, function* (payload) {
     try {
       const response = yield call(updatePets, payload.payload);
       const data = yield call(response.json.bind(response));
-      console.log("🚀 ~ file: usersSaga.js:118 ~ yieldtakeEvery ~ data", data);
-      if (Object.keys(data).length === 0) {
+      if (Object.keys(data).length > 0) {
         yield put({
-          type: userActions.UPDATE_PETS_SUCCESS,
+          type: petsActions.UPDATE_PETS_SUCCESS,
           data: { ...data, ...payload },
         });
       } else {
         yield put({
-          type: userActions.UPDATE_PETS_ERROR,
+          type: petsActions.UPDATE_PETS_ERROR,
           status: false,
           message: data.message,
         });
       }
     } catch (error) {
       yield put({
-        type: userActions.FETCH_ERROR,
+        type: petsActions.FETCH_ERROR,
         status: false,
         message: "Something went wrong..!",
       });
@@ -145,7 +144,7 @@ export function* updatePetSaga() {
 }
 export default function* rootSaga() {
   yield all([
-    fork(getUserssSaga),
+    fork(getPetsSaga),
     fork(createPetSaga),
     fork(deletePetSaga),
     fork(eidtPetSaga),
